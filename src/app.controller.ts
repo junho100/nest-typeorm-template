@@ -7,7 +7,6 @@ export class AppController {
 
   @Get()
   async getHello() {
-    const helloData = await this.appService.getHello();
-    return helloData.title;
+    return this.appService.getHello();
   }
 }
