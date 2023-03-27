@@ -5,15 +5,9 @@ import { Test } from './entity/test.entity';
 
 @Injectable()
 export class AppService {
-  constructor(
-    @InjectRepository(Test) private readonly testRepository: Repository<Test>,
-  ) {}
-
-  async getHello() {
-    return await this.testRepository.findOne({
-      where: {
-        id: 1,
-      },
-    });
+  getHello() {
+    return {
+      title: 'hello world!',
+    };
   }
 }
