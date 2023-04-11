@@ -7,7 +7,7 @@ import { Test } from './entity/test.entity';
 export class AppService {
   getHello() {
     return {
-      title: 'hello world!',
+      title: 'hello world 테스트!',
     };
   }
 }
