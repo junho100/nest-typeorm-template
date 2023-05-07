@@ -1,18 +1,20 @@
 version: 0.2
+
 phases:
   install:
     runtime-versions:
       docker: 18
+    commands:
+      - aws --version
+      - $(aws ecr get-login --no-include-email --region ap-northeast-2)
   build:
     commands:
-      - apt-get install jq -y
-      - ContainerName="terry-nest-task-prod"
-      - ImageURI=$(cat imageDetail.json | jq -r '.ImageURI')
-      - printf '[{"name":"CONTAINER_NAME","imageUri":"IMAGE_URI"}]' > imagedefinitions.json
-      - sed -i -e "s|CONTAINER_NAME|$ContainerName|g" imagedefinitions.json
-      - sed -i -e "s|IMAGE_URI|$ImageURI|g" imagedefinitions.json
-      - cat imagedefinitions.json
-
+      - docker build --platform linux/amd64 -t terry-nest-prod .
+  post_build:
+    commands:
+      - docker tag terry-nest-prod:latest 647180380627.dkr.ecr.ap-northeast-2.amazonaws.com/terry-nest-prod:latest
+      - echo Writing image definitions file...
+      - docker push 647180380627.dkr.ecr.ap-northeast-2.amazonaws.com/terry-nest-prod:latest
+      - printf '[{"name":"nestjs-container-prod","imageUri":"%s"}]' 647180380627.dkr.ecr.ap-northeast-2.amazonaws.com/terry-nest-prod:latest > imagedefinitions.json
 artifacts:
-  files:
-    - imagedefinitions.json
+  files: imagedefinitions.json
