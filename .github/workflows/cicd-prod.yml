@@ -31,4 +31,5 @@ jobs:
           IMAGE_TAG: lastest
         run: |
           docker build --platform linux/amd64 -t terry-nest-prod .
+          docker tag terry-nest-prod:latest 647180380627.dkr.ecr.ap-northeast-2.amazonaws.com/terry-nest-prod:latest
           docker push 647180380627.dkr.ecr.ap-northeast-2.amazonaws.com/terry-nest-prod:latest
